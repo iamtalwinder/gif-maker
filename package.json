@@ -8,6 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ffmpeg/core": "^0.8.5",
+    "@ffmpeg/ffmpeg": "^0.9.6",
     "next": "10.0.3",
     "react": "17.0.1",
     "react-dom": "17.0.1"
