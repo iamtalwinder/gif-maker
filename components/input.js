@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import styles from "./input.module.css";
 import Icon from "@mdi/react";
-import { mdiFilePlusOutline, mdiChevronDown } from "@mdi/js";
+import { mdiFilePlusOutline } from "@mdi/js";
 
-export default function Input({ setVideo }) {
+export default function Input({ video, setVideo }) {
   const input = useRef(null);
   const dropArea = useRef(null);
 
@@ -12,6 +12,10 @@ export default function Input({ setVideo }) {
   };
 
   useEffect(() => {
+    if (!dropArea.current) {
+      return;
+    }
+
     ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
       dropArea.current.addEventListener(eventName, preventDefaults);
     });
@@ -35,23 +39,33 @@ export default function Input({ setVideo }) {
         ref={input}
       />
 
-      <div className={styles.dropZone} onClick={clickInput} ref={dropArea}>
-        <div className={styles.inner}>
-          <div className={styles.buttons}>
-            <button>
+      <div className={styles.container}>
+        <div className={styles.logo}>
+          <img src="/logo.png" /> <span>Online GIF Maker</span>
+        </div>
+        {video && (
+          <button className={styles.changeFile} onClick={clickInput}>
+            Change file
+          </button>
+        )}
+        {video ? (
+          <video
+            className={styles.video}
+            controls
+            src={URL.createObjectURL(video)}
+          ></video>
+        ) : (
+          <div className={styles.dropArea} onClick={clickInput} ref={dropArea}>
+            <p>Easily convert videos to gifs</p>
+            <button className={styles.chooseFile}>
               <span>
                 <Icon path={mdiFilePlusOutline} size={1} verticle="true" />
               </span>
               <span>CHOOSE FILE</span>
             </button>
-            <button>
-              <span>
-                <Icon path={mdiChevronDown} size={1} verticle="true" />
-              </span>
-            </button>
+            <p>or drop file here</p>
           </div>
-          <p>or drop file here</p>
-        </div>
+        )}
       </div>
     </>
   );
