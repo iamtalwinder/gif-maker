@@ -1,9 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, forwardRef } from "react";
 import styles from "./input.module.css";
 import Icon from "@mdi/react";
 import { mdiFilePlusOutline } from "@mdi/js";
 
-export default function Input({ video, setVideo }) {
+export default forwardRef(({ video, setVideo }, ref) => {
   const input = useRef(null);
   const dropArea = useRef(null);
 
@@ -53,6 +53,7 @@ export default function Input({ video, setVideo }) {
             className={styles.video}
             controls
             src={URL.createObjectURL(video)}
+            ref={ref}
           ></video>
         ) : (
           <div className={styles.dropArea} onClick={clickInput} ref={dropArea}>
@@ -69,4 +70,4 @@ export default function Input({ video, setVideo }) {
       </div>
     </>
   );
-}
+});
