@@ -6,6 +6,7 @@ import { mdiFilePlusOutline } from "@mdi/js";
 export default forwardRef(({ video, setVideo }, ref) => {
   const input = useRef(null);
   const dropArea = useRef(null);
+  const container = useRef(null);
 
   const clickInput = () => {
     input.current.click();
@@ -17,7 +18,7 @@ export default forwardRef(({ video, setVideo }, ref) => {
     }
 
     ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
-      dropArea.current.addEventListener(eventName, preventDefaults);
+      container.current.addEventListener(eventName, preventDefaults);
     });
 
     dropArea.current.addEventListener("drop", (e) => {
@@ -39,7 +40,7 @@ export default forwardRef(({ video, setVideo }, ref) => {
         ref={input}
       />
 
-      <div className={styles.container}>
+      <div className={styles.container} ref={container}>
         <div className={styles.logo}>
           <img src="/logo.png" /> <span>Online GIF Maker</span>
         </div>
