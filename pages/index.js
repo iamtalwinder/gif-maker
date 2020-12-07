@@ -1,38 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import Loading from "../components/loading";
+import Input from "../components/input";
+import Controlls from "../components/controlls";
+import Preview from "../components/preview";
+import { createFFmpeg } from "@ffmpeg/ffmpeg";
+import Icon from "@mdi/react";
+import {
+  mdiFileOutline,
+  mdiTransfer,
+  mdiDownload,
+  mdiClockOutline,
+} from "@mdi/js";
 
-import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 const ffmpeg = createFFmpeg({ log: true });
 
 export default function Home() {
   const [ready, setReady] = useState(false);
-  const [video, setVideo] = useState();
+  const [video, setVideo] = useState(null);
   const [gif, setGif] = useState();
+  const videoRef = useRef(null);
 
-  const convertToGif = async () => {
-    ffmpeg.FS("writeFile", "test.mp4", await fetchFile(video));
-
-    await ffmpeg.run(
-      "-i",
-      "test.mp4",
-      "-t",
-      "5",
-      "-ss",
-      "20",
-      "-f",
-      "gif",
-      "out.gif"
-    );
-
-    const data = ffmpeg.FS("readFile", "out.gif");
-
-    const url = URL.createObjectURL(
-      new Blob([data.buffer], { type: "image/gif" })
-    );
-
-    setGif(url);
-  };
+  const ICON_SIZE = 1.4;
 
   const load = async () => {
     await ffmpeg.load();
@@ -40,47 +30,103 @@ export default function Home() {
   };
 
   useEffect(() => {
-    load();
+    if (!ffmpeg.isLoaded()) {
+      load();
+    }
   }, []);
 
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>GIF maker</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.png" />
       </Head>
 
-      {ready ? (
-        <div>
-          {video && (
-            <video
-              controls
-              width="250"
-              src={URL.createObjectURL(video)}
-            ></video>
-          )}
+      {!ready && <Loading />}
 
-          <input
-            type="file"
-            onChange={(e) => setVideo(e.target.files?.item(0))}
-          />
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
-
-      <h3>Result</h3>
-
-      <button onClick={convertToGif}>Convert</button>
-
-      {gif && (
+      {ready && (
         <>
-          <img src={gif} width="250" />
-          <a href={gif} download>
-            download
-          </a>
+          <nav className={styles.nav}>
+            <div className={styles.logo}>
+              <img src="./logo.png" alt="logo" />
+              <span>GIF maker</span>
+            </div>
+          </nav>
+          <div className={styles.container}>
+            <Input video={video} setVideo={setVideo} ref={videoRef} />
+            <div className={styles.controlls}>
+              <Controlls
+                video={video}
+                videoRef={videoRef}
+                setGif={setGif}
+                ffmpeg={ffmpeg}
+              />
+            </div>
+            <div className={styles.preview}>
+              <Preview gif={gif} />
+            </div>
+            <div className={styles.instruction}>
+              <div className={styles.heading}>
+                How to Convert any video file to animated gif
+              </div>
+              <div className={styles.points}>
+                <div>
+                  <span>
+                    <Icon
+                      path={mdiFileOutline}
+                      size={ICON_SIZE}
+                      verticle="true"
+                      color="#505050"
+                    />
+                  </span>
+                  <span>Select any video file you wish to convert.</span>
+                </div>
+                <div>
+                  <span>
+                    <Icon
+                      path={mdiClockOutline}
+                      size={ICON_SIZE}
+                      verticle="true"
+                      color="#505050"
+                    />
+                  </span>
+                  <span>
+                    Select the part of the video to convert into a gif and press
+                    convert button.
+                  </span>
+                </div>
+                <div>
+                  <span>
+                    <Icon
+                      path={mdiTransfer}
+                      size={ICON_SIZE}
+                      verticle="true"
+                      color="#505050"
+                    />
+                  </span>
+                  <span>
+                    Our free GIF maker will convert your video file to an
+                    animated gif in seconds.
+                  </span>
+                </div>
+                <div>
+                  <span>
+                    <Icon
+                      path={mdiDownload}
+                      size={ICON_SIZE}
+                      verticle="true"
+                      color="#505050"
+                    />
+                  </span>
+                  <span>
+                    Your new file will be ready to download immediately.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </>
       )}
-    </div>
+    </>
   );
 }
