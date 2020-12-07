@@ -52,7 +52,7 @@ video editing work is done on the client-side using [wasm](https://webassembly.o
 server involved.
 
 <p align="center">
-    <img src="public/demo.gif" alt="demo" />
+    <img src="demo/demo.gif" alt="demo" />
 </p>
 
 ### Built With
