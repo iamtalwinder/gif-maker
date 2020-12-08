@@ -1,0 +1,87 @@
+.container {
+  width: 100vw;
+  min-height: 100vh;
+  margin: 60px auto;
+  padding: 5px;
+}
+
+.controlls,
+.preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.nav {
+  background-color: #faf6f6;
+  border-bottom: 1px solid #ccc;
+  top: 0;
+  left: 0;
+  width: 100%;
+  position: fixed;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+}
+
+.logo img {
+  width: 30px;
+  height: 30px;
+}
+
+.logo span {
+  color: #313131;
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 5px;
+}
+
+.instruction {
+  padding: 30px 0px;
+  transition: 0.5s ease;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: bold;
+  color: #313131;
+  text-align: center;
+}
+
+.points > div {
+  margin-top: 30px;
+  font-size: 16px;
+  color: #505050;
+  display: flex;
+  align-items: center;
+}
+
+.points > div > span {
+  margin-left: 10px;
+}
+
+@media (min-width: 600px) {
+  .container {
+    width: 80vw;
+  }
+}
+
+@media (min-width: 1100px) {
+  .heading {
+    margin: 40px;
+  }
+
+  .points {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
