@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://iamtalwinder.github.io/gif-maker/">
+  <a href="https://gif-maker-livid.vercel.app/">
     <img src="public/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -11,7 +11,7 @@
     An awesome tool to convert video files to animated gifs
     <br />
     <br />
-    <a href="https://iamtalwinder.github.io/gif-maker/">View Demo</a>
+    <a href="https://gif-maker-livid.vercel.app/">View Demo</a>
     ·
     <a href="https://github.com/iamtalwinder/gif-maker/issues/new?assignees=&labels=&template=bug_report.md&title">Report Bug</a>
     ·
