@@ -38,8 +38,12 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>GIF maker</title>
         <link rel="icon" href="/logo.png" />
+        <title>GIF maker</title>
+        <meta
+          name="description"
+          content="An awesome tool to convert video files to animated gifs in seconds"
+        ></meta>
       </Head>
 
       {!ready && <Loading />}
