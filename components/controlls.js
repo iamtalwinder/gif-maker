@@ -4,6 +4,7 @@ import time from "../lib/time";
 import { fetchFile } from "@ffmpeg/ffmpeg";
 import styled from "styled-components";
 import Container from "./container";
+import AnimatedButton from "./animatedButton";
 
 const ControllsContainer = styled(Container)`
   justify-content: space-evenly;
@@ -238,16 +239,11 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
         </div>
       </div>
 
-      <button className={styles.convert} disabled={isConverting}>
-        <div className={styles.item}>
-          <div></div>
-        </div>
-        <p>{isConverting ? "Converting..." : "Convert"}</p>
-        <div className={styles.circle} style={{ animationDelay: "-3s" }}></div>
-        <div className={styles.circle} style={{ animationDelay: "-2s" }}></div>
-        <div className={styles.circle} style={{ animationDelay: "-1s" }}></div>
-        <div className={styles.circle} style={{ animationDelay: "0s" }}></div>
-      </button>
+      <AnimatedButton
+        loading={isConverting}
+        text="Convert"
+        loadingText="Converting..."
+      />
     </ControllsContainer>
   );
 }
