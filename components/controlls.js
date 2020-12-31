@@ -7,6 +7,7 @@ import AnimatedButton from "./animatedButton";
 
 const ControllsContainer = styled(Container)`
   justify-content: space-evenly;
+  margin-top: 20px;
 `;
 
 const Input = styled.input`

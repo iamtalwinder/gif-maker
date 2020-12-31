@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import Loading from "../components/loading";
 import Input from "../components/input";
 import Controlls from "../components/controlls";
@@ -16,8 +15,70 @@ import {
 import Logo from "../components/logo";
 import styled from "styled-components";
 
+const Nav = styled.nav`
+  background-color: #faf6f6;
+  border-bottom: 1px solid #ccc;
+  top: 0;
+  left: 0;
+  width: 100%;
+  position: fixed;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+`;
+
 const NavLogo = styled(Logo)`
   margin-left: 30px;
+`;
+
+const Container = styled.div`
+  width: 100vw;
+  min-height: 100vh;
+  margin: 60px auto;
+  padding: 5px;
+
+  @media (min-width: 600px) {
+    width: 80vw;
+  }
+`;
+
+const Instructions = styled.div`
+  padding: 30px 0px;
+  transition: 0.5s ease;
+`;
+
+const Heading = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  color: #313131;
+  text-align: center;
+
+  @media (min-width: 1100px) {
+    margin: 40px;
+  }
+`;
+
+const Points = styled.div`
+  margin-top: 30px;
+  font-size: 16px;
+  color: #505050;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  & > div > span {
+    margin-left: 5px;
+  }
+
+  @media (min-width: 1100px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 
 const ffmpeg = createFFmpeg({ log: true });
@@ -56,27 +117,21 @@ export default function Home() {
 
       {ready && (
         <>
-          <nav className={styles.nav}>
+          <Nav>
             <NavLogo text="GIF maker" />
-          </nav>
-          <div className={styles.container}>
+          </Nav>
+          <Container>
             <Input video={video} setVideo={setVideo} ref={videoRef} />
-            <div className={styles.controlls}>
-              <Controlls
-                video={video}
-                videoRef={videoRef}
-                setGif={setGif}
-                ffmpeg={ffmpeg}
-              />
-            </div>
-            <div className={styles.preview}>
-              <Preview gif={gif} />
-            </div>
-            <div className={styles.instruction}>
-              <div className={styles.heading}>
-                How to Convert any video file to animated gif
-              </div>
-              <div className={styles.points}>
+            <Controlls
+              video={video}
+              videoRef={videoRef}
+              setGif={setGif}
+              ffmpeg={ffmpeg}
+            />
+            <Preview gif={gif} />
+            <Instructions>
+              <Heading>How to Convert any video file to animated gif</Heading>
+              <Points>
                 <div>
                   <span>
                     <Icon
@@ -129,9 +184,9 @@ export default function Home() {
                     Your new file will be ready to download immediately.
                   </span>
                 </div>
-              </div>
-            </div>
-          </div>
+              </Points>
+            </Instructions>
+          </Container>
         </>
       )}
     </>
