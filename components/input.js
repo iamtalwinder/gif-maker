@@ -87,12 +87,7 @@ export default forwardRef(({ video, setVideo }, ref) => {
           <ChangeFileButton onClick={clickInput}>Change file</ChangeFileButton>
         )}
         {video ? (
-          <Video
-            className={styles.video}
-            controls
-            src={URL.createObjectURL(video)}
-            ref={ref}
-          />
+          <Video controls src={URL.createObjectURL(video)} ref={ref} />
         ) : (
           <DropArea onClick={clickInput} ref={dropArea}>
             <p>Easily convert videos to gifs</p>
