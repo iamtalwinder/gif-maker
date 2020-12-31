@@ -59,13 +59,6 @@
   background-size: 200% auto;
 }
 
-.changeFile {
-  border-radius: 20px;
-  float: right;
-  margin-bottom: 5px;
-  padding: 4px;
-}
-
 .chooseFile {
   font-size: 16px;
   display: flex;
@@ -75,11 +68,6 @@
   border: 1px solid black;
 }
 
-.chooseFile span {
-  margin-right: 5px;
-}
-
-.changeFile:hover,
 .chooseFile:hover {
   background-position: right center;
 }

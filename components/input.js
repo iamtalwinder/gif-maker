@@ -1,7 +1,17 @@
 import { useEffect, useRef, forwardRef } from "react";
+import styled from "styled-components";
 import styles from "./input.module.css";
 import Icon from "@mdi/react";
 import { mdiFilePlusOutline } from "@mdi/js";
+import GradientButton from "./gradientButton";
+
+const ChangeFileButton = styled(GradientButton)`
+  border-radius: 20px;
+  float: right;
+  margin-bottom: 5px;
+  padding: 6px;
+  font-size: 12px;
+`;
 
 export default forwardRef(({ video, setVideo }, ref) => {
   const input = useRef(null);
@@ -45,9 +55,7 @@ export default forwardRef(({ video, setVideo }, ref) => {
           <img src="/logo.png" /> <span>Online GIF Maker</span>
         </div>
         {video && (
-          <button className={styles.changeFile} onClick={clickInput}>
-            Change file
-          </button>
+          <ChangeFileButton onClick={clickInput}>Change file</ChangeFileButton>
         )}
         {video ? (
           <video
@@ -59,12 +67,12 @@ export default forwardRef(({ video, setVideo }, ref) => {
         ) : (
           <div className={styles.dropArea} onClick={clickInput} ref={dropArea}>
             <p>Easily convert videos to gifs</p>
-            <button className={styles.chooseFile}>
+            <GradientButton>
               <span>
                 <Icon path={mdiFilePlusOutline} size={1} verticle="true" />
               </span>
               <span>CHOOSE FILE</span>
-            </button>
+            </GradientButton>
             <p>or drop file here</p>
           </div>
         )}
