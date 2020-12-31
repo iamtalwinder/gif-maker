@@ -15,6 +15,7 @@ const ChangeFileButton = styled(GradientButton)`
 `;
 
 const InputContainer = styled(Container)`
+  display: block;
   padding: 20px;
   background-color: #ffffff;
 `;
@@ -56,7 +57,7 @@ export default forwardRef(({ video, setVideo }, ref) => {
         ref={input}
       />
 
-      <InputContainer ref={container}>
+      <InputContainer ref={container} visible={true}>
         <div className={styles.logo}>
           <img src="/logo.png" /> <span>Online GIF Maker</span>
         </div>

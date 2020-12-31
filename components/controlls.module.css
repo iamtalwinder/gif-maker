@@ -1,28 +1,7 @@
 .startTime,
-.endTime,
-.container {
+.endTime {
   display: flex;
   align-items: center;
-}
-
-.container {
-  transition: 0.5s ease;
-  pointer-events: none;
-  opacity: 0;
-  pointer-events: none;
-  width: 0;
-  height: 0;
-  border: 1px solid #ccc;
-  justify-content: space-evenly;
-  flex-direction: column;
-  max-width: 700px;
-}
-
-.visible {
-  width: 100%;
-  height: 250px;
-  opacity: 1;
-  pointer-events: auto;
 }
 
 .startTime {
@@ -43,19 +22,6 @@
 
 .inputSeparator {
   margin: 0 5px;
-}
-
-.container input[type="number"] {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  outline: none;
-  padding: 3px;
-  min-width: 50px;
-  max-width: 50px;
-}
-
-.container input[type="number"]:focus {
-  border: 1px solid #313131;
 }
 
 .convert {

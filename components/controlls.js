@@ -1,7 +1,26 @@
-import { useEffect, useRef, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import styles from "./controlls.module.css";
 import time from "../lib/time";
 import { fetchFile } from "@ffmpeg/ffmpeg";
+import styled from "styled-components";
+import Container from "./container";
+
+const ControllsContainer = styled(Container)`
+  justify-content: space-evenly;
+
+  input[type="number"] {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    padding: 3px;
+    min-width: 50px;
+    max-width: 50px;
+  }
+
+  input[type="number"]:focus {
+    border: 1px solid #313131;
+  }
+`;
 
 const timeActionTypes = {
   SET_TIME: "SET_TIME",
@@ -11,8 +30,8 @@ const timeActionTypes = {
 };
 
 export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
-  const container = useRef(null);
   const [isConverting, setIsConverting] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const timeReducer = (state, action) => {
     switch (action.type) {
@@ -107,14 +126,14 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
         setTime();
       }, 100);
 
-      container.current.classList.add(styles.visible);
+      setVisible(true);
     } else {
-      container.current.classList.remove(styles.visible);
+      setVisible(false);
     }
   }, [video]);
 
   return (
-    <form className={styles.container} ref={container} onSubmit={convert}>
+    <ControllsContainer as="form" onSubmit={convert} visible={visible}>
       <div className={styles.inputs}>
         <div className={styles.startTime}>
           <span>Start Time:</span>
@@ -229,6 +248,6 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
         <div className={styles.circle} style={{ animationDelay: "-1s" }}></div>
         <div className={styles.circle} style={{ animationDelay: "0s" }}></div>
       </button>
-    </form>
+    </ControllsContainer>
   );
 }
