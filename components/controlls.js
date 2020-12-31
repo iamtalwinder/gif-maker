@@ -1,5 +1,4 @@
 import { useEffect, useReducer, useState } from "react";
-import styles from "./controlls.module.css";
 import time from "../lib/time";
 import { fetchFile } from "@ffmpeg/ffmpeg";
 import styled from "styled-components";
@@ -8,18 +7,38 @@ import AnimatedButton from "./animatedButton";
 
 const ControllsContainer = styled(Container)`
   justify-content: space-evenly;
+`;
 
-  input[type="number"] {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    outline: none;
-    padding: 3px;
-    min-width: 50px;
-    max-width: 50px;
+const Input = styled.input`
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  padding: 3px;
+  min-width: 50px;
+  max-width: 50px;
+
+  &:focus {
+    border: 1px solid #313131;
+  }
+`;
+
+const TimeInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+
+  &:first-child {
+    margin-bottom: 5px;
   }
 
-  input[type="number"]:focus {
-    border: 1px solid #313131;
+  & span:first-child {
+    width: 100px;
+    text-align: right;
+    margin-right: 5px;
+  }
+
+  & span:last-child {
+    margin: 0 5px;
   }
 `;
 
@@ -135,11 +154,11 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
 
   return (
     <ControllsContainer as="form" onSubmit={convert} visible={visible}>
-      <div className={styles.inputs}>
-        <div className={styles.startTime}>
+      <div>
+        <TimeInputContainer>
           <span>Start Time:</span>
           <span>
-            <input
+            <Input
               type="number"
               value={`${startTime.hours}`}
               min="0"
@@ -152,8 +171,8 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
               }}
               required
             />
-            <span className={styles.inputSeparator}>:</span>
-            <input
+            <span>:</span>
+            <Input
               type="number"
               value={startTime.minutes}
               min="0"
@@ -168,8 +187,8 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
               }
               required
             />
-            <span className={styles.inputSeparator}>:</span>
-            <input
+            <span>:</span>
+            <Input
               type="number"
               value={startTime.seconds}
               min="0"
@@ -185,11 +204,11 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
               required
             />
           </span>
-        </div>
-        <div className={styles.endTime}>
+        </TimeInputContainer>
+        <TimeInputContainer>
           <span>End Time:</span>
           <span>
-            <input
+            <Input
               type="number"
               value={endTime.hours}
               min={`${startTime.hours}`}
@@ -202,8 +221,8 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
               }
               required
             />
-            <span className={styles.inputSeparator}>:</span>
-            <input
+            <span>:</span>
+            <Input
               type="number"
               value={endTime.minutes}
               min={`${startTime.minutes}`}
@@ -218,8 +237,8 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
               }
               required
             />
-            <span className={styles.inputSeparator}>:</span>
-            <input
+            <span>:</span>
+            <Input
               type="number"
               value={endTime.seconds}
               min={`${startTime.seconds}`}
@@ -236,7 +255,7 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
               }
             />
           </span>
-        </div>
+        </TimeInputContainer>
       </div>
 
       <AnimatedButton
