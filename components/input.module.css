@@ -31,33 +31,3 @@
   justify-content: space-evenly;
   color: #505050;
 }
-
-.changeFile,
-.chooseFile {
-  outline: none;
-  border: none;
-  cursor: pointer;
-  background-image: linear-gradient(
-    to right,
-    #29ad37 0%,
-    #8cc220 51%,
-    #29ad37 100%
-  );
-  color: #ffffff;
-  transition: 0.5s;
-  box-shadow: 0 0 20px #eee;
-  background-size: 200% auto;
-}
-
-.chooseFile {
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  border-radius: 50px;
-  border: 1px solid black;
-}
-
-.chooseFile:hover {
-  background-position: right center;
-}
