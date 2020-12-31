@@ -1,6 +1,5 @@
 import { useEffect, useRef, forwardRef } from "react";
 import styled from "styled-components";
-import styles from "./input.module.css";
 import Icon from "@mdi/react";
 import { mdiFilePlusOutline } from "@mdi/js";
 import GradientButton from "./gradientButton";
@@ -23,6 +22,27 @@ const ChangeFileButton = styled(GradientButton)`
 
 const InputLogo = styled(Logo)`
   margin-bottom: 15px;
+`;
+
+const Input = styled.input`
+  display: none;
+`;
+
+const Video = styled.video`
+  width: 100%;
+  height: 75%;
+`;
+
+const DropArea = styled.div`
+  width: 100%;
+  height: 75%;
+  background: inherit;
+  border: 2px dashed #313131;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  color: #505050;
 `;
 
 export default forwardRef(({ video, setVideo }, ref) => {
@@ -55,8 +75,7 @@ export default forwardRef(({ video, setVideo }, ref) => {
 
   return (
     <>
-      <input
-        className={styles.input}
+      <Input
         type="file"
         onChange={(e) => setVideo(e.target.files?.item(0))}
         ref={input}
@@ -68,14 +87,14 @@ export default forwardRef(({ video, setVideo }, ref) => {
           <ChangeFileButton onClick={clickInput}>Change file</ChangeFileButton>
         )}
         {video ? (
-          <video
+          <Video
             className={styles.video}
             controls
             src={URL.createObjectURL(video)}
             ref={ref}
-          ></video>
+          />
         ) : (
-          <div className={styles.dropArea} onClick={clickInput} ref={dropArea}>
+          <DropArea onClick={clickInput} ref={dropArea}>
             <p>Easily convert videos to gifs</p>
             <GradientButton>
               <span>
@@ -84,7 +103,7 @@ export default forwardRef(({ video, setVideo }, ref) => {
               <span>CHOOSE FILE</span>
             </GradientButton>
             <p>or drop file here</p>
-          </div>
+          </DropArea>
         )}
       </InputContainer>
     </>
