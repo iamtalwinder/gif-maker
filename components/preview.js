@@ -1,22 +1,52 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
 import Icon from "@mdi/react";
 import { mdiDownload } from "@mdi/js";
 import GradientButton from "./gradientButton";
-import styles from "./preview.module.css";
+
+const Container = styled.div`
+  transition: 0.5s ease;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+
+  ${(props) =>
+    props.visible &&
+    `
+    width: 100%;
+    height: 400px;
+    max-width: 700px;
+    opacity: 1;
+    pointer-events: auto;
+
+    & > img {
+      width: 100%;
+      max-width: 500px;
+      height: 85%;
+    }
+  `}
+`;
 
 export default function Preview({ gif }) {
-  const container = useRef(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (gif) {
-      container.current.classList.add(styles.visible);
+      setVisible(true);
     } else {
-      container.current.classList.remove(styles.visible);
+      setVisible(false);
     }
   }, [gif]);
 
   return (
-    <div className={styles.container} ref={container}>
+    <Container visible={visible}>
       <img src={gif} />
       <GradientButton as="a" href={gif} download>
         <span>
@@ -24,6 +54,6 @@ export default function Preview({ gif }) {
         </span>
         <span>Download</span>
       </GradientButton>
-    </div>
+    </Container>
   );
 }
