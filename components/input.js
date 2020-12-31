@@ -5,6 +5,13 @@ import Icon from "@mdi/react";
 import { mdiFilePlusOutline } from "@mdi/js";
 import GradientButton from "./gradientButton";
 import Container from "./container";
+import Logo from "./logo";
+
+const InputContainer = styled(Container)`
+  display: block;
+  padding: 20px;
+  background-color: #ffffff;
+`;
 
 const ChangeFileButton = styled(GradientButton)`
   border-radius: 20px;
@@ -14,10 +21,8 @@ const ChangeFileButton = styled(GradientButton)`
   font-size: 12px;
 `;
 
-const InputContainer = styled(Container)`
-  display: block;
-  padding: 20px;
-  background-color: #ffffff;
+const InputLogo = styled(Logo)`
+  margin-bottom: 15px;
 `;
 
 export default forwardRef(({ video, setVideo }, ref) => {
@@ -58,9 +63,7 @@ export default forwardRef(({ video, setVideo }, ref) => {
       />
 
       <InputContainer ref={container} visible={true}>
-        <div className={styles.logo}>
-          <img src="/logo.png" /> <span>Online GIF Maker</span>
-        </div>
+        <InputLogo text="Online GIF Maker" />
         {video && (
           <ChangeFileButton onClick={clickInput}>Change file</ChangeFileButton>
         )}

@@ -13,6 +13,12 @@ import {
   mdiDownload,
   mdiClockOutline,
 } from "@mdi/js";
+import Logo from "../components/logo";
+import styled from "styled-components";
+
+const NavLogo = styled(Logo)`
+  margin-left: 30px;
+`;
 
 const ffmpeg = createFFmpeg({ log: true });
 
@@ -51,10 +57,7 @@ export default function Home() {
       {ready && (
         <>
           <nav className={styles.nav}>
-            <div className={styles.logo}>
-              <img src="./logo.png" alt="logo" />
-              <span>GIF maker</span>
-            </div>
+            <NavLogo text="GIF maker" />
           </nav>
           <div className={styles.container}>
             <Input video={video} setVideo={setVideo} ref={videoRef} />
