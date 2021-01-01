@@ -9,7 +9,6 @@ import Logo from "./logo";
 const InputContainer = styled(Container)`
   display: block;
   padding: 20px;
-  background-color: #ffffff;
 `;
 
 const ChangeFileButton = styled(GradientButton)`
@@ -37,12 +36,12 @@ const DropArea = styled.div`
   width: 100%;
   height: 75%;
   background: inherit;
-  border: 2px dashed #313131;
+  border: 2px dashed ${({ theme }) => theme.headingColor};
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  color: #505050;
+  color: ${({ theme }) => theme.textColor};
 `;
 
 export default forwardRef(({ video, setVideo }, ref) => {

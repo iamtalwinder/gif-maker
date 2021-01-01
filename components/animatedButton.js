@@ -25,6 +25,7 @@ const Button = styled.button`
   outline: none;
   border: none;
   cursor: pointer;
+  background: ${({ theme }) => theme.bg};
 `;
 
 const Circle = styled.div`

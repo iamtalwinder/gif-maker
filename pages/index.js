@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import Head from "next/head";
 import Loading from "../components/loading";
 import Input from "../components/input";
@@ -13,11 +13,13 @@ import {
   mdiClockOutline,
 } from "@mdi/js";
 import Logo from "../components/logo";
-import styled from "styled-components";
+import ThemeToggler from "../components/themeToggler";
+import styled, { ThemeContext } from "styled-components";
 
 const Nav = styled.nav`
-  background-color: #faf6f6;
-  border-bottom: 1px solid #ccc;
+  background-color: ${({ theme }) => theme.fg};
+  border-bottom: 1px solid ${({ theme }) => theme.lightBorder};
+  color: ${({ theme }) => theme.headingColor};
   top: 0;
   left: 0;
   width: 100%;
@@ -26,10 +28,8 @@ const Nav = styled.nav`
   display: flex;
   align-items: center;
   z-index: 10;
-`;
-
-const NavLogo = styled(Logo)`
-  margin-left: 30px;
+  justify-content: space-between;
+  padding: 0 30px;
 `;
 
 const Container = styled.div`
@@ -51,7 +51,7 @@ const Instructions = styled.div`
 const Heading = styled.div`
   font-size: 20px;
   font-weight: bold;
-  color: #313131;
+  color: ${({ theme }) => theme.headingColor};
   text-align: center;
 
   @media (min-width: 1100px) {
@@ -62,7 +62,7 @@ const Heading = styled.div`
 const Points = styled.div`
   margin-top: 30px;
   font-size: 16px;
-  color: #505050;
+  color: ${({ theme }) => theme.textColor};
 
   & > div {
     display: flex;
@@ -83,11 +83,13 @@ const Points = styled.div`
 
 const ffmpeg = createFFmpeg({ log: true });
 
-export default function Home() {
+export default function Home({ toggleTheme }) {
   const [ready, setReady] = useState(false);
   const [video, setVideo] = useState(null);
   const [gif, setGif] = useState();
   const videoRef = useRef(null);
+
+  const theme = useContext(ThemeContext);
 
   const ICON_SIZE = 1.4;
 
@@ -118,7 +120,8 @@ export default function Home() {
       {ready && (
         <>
           <Nav>
-            <NavLogo text="GIF maker" />
+            <Logo text="GIF maker" />
+            <ThemeToggler toggleTheme={toggleTheme} />
           </Nav>
           <Container>
             <Input video={video} setVideo={setVideo} ref={videoRef} />
@@ -138,7 +141,7 @@ export default function Home() {
                       path={mdiFileOutline}
                       size={ICON_SIZE}
                       verticle="true"
-                      color="#505050"
+                      color={theme.textColor}
                     />
                   </span>
                   <span>Select any video file you wish to convert.</span>
@@ -149,7 +152,7 @@ export default function Home() {
                       path={mdiClockOutline}
                       size={ICON_SIZE}
                       verticle="true"
-                      color="#505050"
+                      color={theme.textColor}
                     />
                   </span>
                   <span>
@@ -163,7 +166,7 @@ export default function Home() {
                       path={mdiTransfer}
                       size={ICON_SIZE}
                       verticle="true"
-                      color="#505050"
+                      color={theme.textColor}
                     />
                   </span>
                   <span>
@@ -177,7 +180,7 @@ export default function Home() {
                       path={mdiDownload}
                       size={ICON_SIZE}
                       verticle="true"
-                      color="#505050"
+                      color={theme.textColor}
                     />
                   </span>
                   <span>

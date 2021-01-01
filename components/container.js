@@ -4,7 +4,8 @@ const Container = styled.div`
   transition: 0.5s ease;
   max-width: 700px;
   margin: auto;
-  border: 1px solid #ccc;
+  border: 1px solid ${({ theme }) => theme.lightBorder};
+  background: ${({ theme }) => theme.fg};
   display: flex;
   flex-direction: column;
   justify-content: space-between;

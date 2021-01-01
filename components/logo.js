@@ -5,6 +5,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  color: ${({ theme }) => theme.headingColor};
 `;
 
 const Img = styled.img`

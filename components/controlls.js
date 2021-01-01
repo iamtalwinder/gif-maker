@@ -11,7 +11,9 @@ const ControllsContainer = styled(Container)`
 `;
 
 const Input = styled.input`
-  border: 1px solid #ccc;
+  border: 1px solid ${({ theme }) => theme.lightBorder};
+  background: ${({ theme }) => theme.bg};
+  color: ${({ theme }) => theme.textColor};
   border-radius: 10px;
   outline: none;
   padding: 3px;
@@ -19,7 +21,7 @@ const Input = styled.input`
   max-width: 50px;
 
   &:focus {
-    border: 1px solid #313131;
+    border: 1px solid ${({ theme }) => theme.headingColor};
   }
 `;
 
@@ -27,6 +29,7 @@ const TimeInputContainer = styled.div`
   display: flex;
   align-items: center;
   font-weight: bold;
+  color: ${({ theme }) => theme.headingColor};
 
   &:first-child {
     margin-bottom: 5px;
@@ -38,7 +41,7 @@ const TimeInputContainer = styled.div`
     margin-right: 5px;
   }
 
-  & span:last-child {
+  & span span {
     margin: 0 5px;
   }
 `;

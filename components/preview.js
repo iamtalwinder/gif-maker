@@ -6,8 +6,6 @@ import GradientButton from "./gradientButton";
 import Container from "./container";
 
 const PreviewContainer = styled(Container)`
-  transition: 0.5s ease;
-  border: 1px solid #ccc;
   margin-top: 20px;
 
   ${(props) =>
