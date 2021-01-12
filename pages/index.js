@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import Loading from "../components/loading";
 import Input from "../components/input";
 import Controlls from "../components/controlls";
@@ -13,14 +12,85 @@ import {
   mdiDownload,
   mdiClockOutline,
 } from "@mdi/js";
+import Logo from "../components/logo";
+import ThemeToggler from "../components/themeToggler";
+import styled, { ThemeContext } from "styled-components";
+
+const Nav = styled.nav`
+  background-color: ${({ theme }) => theme.fg};
+  border-bottom: 1px solid ${({ theme }) => theme.lightBorder};
+  color: ${({ theme }) => theme.headingColor};
+  top: 0;
+  left: 0;
+  width: 100%;
+  position: fixed;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  justify-content: space-between;
+  padding: 0 30px;
+`;
+
+const Container = styled.div`
+  width: 100vw;
+  min-height: 100vh;
+  margin: 60px auto;
+  padding: 5px;
+
+  @media (min-width: 600px) {
+    width: 80vw;
+  }
+`;
+
+const Instructions = styled.div`
+  padding: 30px 0px;
+  transition: 0.5s ease;
+`;
+
+const Heading = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  color: ${({ theme }) => theme.headingColor};
+  text-align: center;
+
+  @media (min-width: 1100px) {
+    margin: 40px;
+  }
+`;
+
+const Points = styled.div`
+  margin-top: 30px;
+  font-size: 16px;
+  color: ${({ theme }) => theme.textColor};
+
+  & > div {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  & > div > span {
+    margin-left: 5px;
+  }
+
+  @media (min-width: 1100px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+`;
 
 const ffmpeg = createFFmpeg({ log: true });
 
-export default function Home() {
+export default function Home({ toggleTheme }) {
   const [ready, setReady] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [video, setVideo] = useState(null);
   const [gif, setGif] = useState();
   const videoRef = useRef(null);
+
+  const theme = useContext(ThemeContext);
 
   const ICON_SIZE = 1.4;
 
@@ -31,6 +101,9 @@ export default function Home() {
 
   useEffect(() => {
     if (!ffmpeg.isLoaded()) {
+      setInterval(() => {
+        setLoading(false);
+      }, 3000);
       load();
     }
   }, []);
@@ -46,41 +119,34 @@ export default function Home() {
         ></meta>
       </Head>
 
-      {!ready && <Loading />}
+      {loading && <Loading />}
 
-      {ready && (
+      {!loading && (
         <>
-          <nav className={styles.nav}>
-            <div className={styles.logo}>
-              <img src="./logo.png" alt="logo" />
-              <span>GIF maker</span>
-            </div>
-          </nav>
-          <div className={styles.container}>
+          <Nav>
+            <Logo text="GIF maker" />
+            <ThemeToggler toggleTheme={toggleTheme} />
+          </Nav>
+          <Container>
             <Input video={video} setVideo={setVideo} ref={videoRef} />
-            <div className={styles.controlls}>
-              <Controlls
-                video={video}
-                videoRef={videoRef}
-                setGif={setGif}
-                ffmpeg={ffmpeg}
-              />
-            </div>
-            <div className={styles.preview}>
-              <Preview gif={gif} />
-            </div>
-            <div className={styles.instruction}>
-              <div className={styles.heading}>
-                How to Convert any video file to animated gif
-              </div>
-              <div className={styles.points}>
+            <Controlls
+              video={video}
+              videoRef={videoRef}
+              setGif={setGif}
+              ffmpeg={ffmpeg}
+              ready={ready}
+            />
+            <Preview gif={gif} />
+            <Instructions>
+              <Heading>How to Convert any video file to animated gif</Heading>
+              <Points>
                 <div>
                   <span>
                     <Icon
                       path={mdiFileOutline}
                       size={ICON_SIZE}
                       verticle="true"
-                      color="#505050"
+                      color={theme.textColor}
                     />
                   </span>
                   <span>Select any video file you wish to convert.</span>
@@ -91,7 +157,7 @@ export default function Home() {
                       path={mdiClockOutline}
                       size={ICON_SIZE}
                       verticle="true"
-                      color="#505050"
+                      color={theme.textColor}
                     />
                   </span>
                   <span>
@@ -105,7 +171,7 @@ export default function Home() {
                       path={mdiTransfer}
                       size={ICON_SIZE}
                       verticle="true"
-                      color="#505050"
+                      color={theme.textColor}
                     />
                   </span>
                   <span>
@@ -119,16 +185,16 @@ export default function Home() {
                       path={mdiDownload}
                       size={ICON_SIZE}
                       verticle="true"
-                      color="#505050"
+                      color={theme.textColor}
                     />
                   </span>
                   <span>
                     Your new file will be ready to download immediately.
                   </span>
                 </div>
-              </div>
-            </div>
-          </div>
+              </Points>
+            </Instructions>
+          </Container>
         </>
       )}
     </>

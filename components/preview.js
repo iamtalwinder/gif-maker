@@ -1,30 +1,44 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
 import Icon from "@mdi/react";
 import { mdiDownload } from "@mdi/js";
-import styles from "./preview.module.css";
+import GradientButton from "./gradientButton";
+import Container from "./container";
+
+const PreviewContainer = styled(Container)`
+  margin-top: 20px;
+
+  ${(props) =>
+    props.visible &&
+    `
+    & > img {
+      width: 100%;
+      max-width: 500px;
+      height: 85%;
+    }
+  `}
+`;
 
 export default function Preview({ gif }) {
-  const container = useRef(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (gif) {
-      container.current.classList.add(styles.visible);
+      setVisible(true);
     } else {
-      container.current.classList.remove(styles.visible);
+      setVisible(false);
     }
   }, [gif]);
 
   return (
-    <div className={styles.container} ref={container}>
+    <PreviewContainer visible={visible}>
       <img src={gif} />
-      <a href={gif} download>
-        <button>
-          <span>
-            <Icon path={mdiDownload} size={1} verticle="true" />
-          </span>
-          <span>Download</span>
-        </button>
-      </a>
-    </div>
+      <GradientButton as="a" href={gif} download>
+        <span>
+          <Icon path={mdiDownload} size={1} verticle="true" />
+        </span>
+        <span>Download</span>
+      </GradientButton>
+    </PreviewContainer>
   );
 }

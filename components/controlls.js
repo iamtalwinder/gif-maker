@@ -1,7 +1,50 @@
-import { useEffect, useRef, useReducer, useState } from "react";
-import styles from "./controlls.module.css";
+import { useEffect, useReducer, useState } from "react";
 import time from "../lib/time";
 import { fetchFile } from "@ffmpeg/ffmpeg";
+import styled from "styled-components";
+import Container from "./container";
+import AnimatedButton from "./animatedButton";
+
+const ControllsContainer = styled(Container)`
+  justify-content: space-evenly;
+  margin-top: 20px;
+`;
+
+const Input = styled.input`
+  border: 1px solid ${({ theme }) => theme.lightBorder};
+  background: ${({ theme }) => theme.bg};
+  color: ${({ theme }) => theme.textColor};
+  border-radius: 10px;
+  outline: none;
+  padding: 3px;
+  min-width: 50px;
+  max-width: 50px;
+
+  &:focus {
+    border: 1px solid ${({ theme }) => theme.headingColor};
+  }
+`;
+
+const TimeInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: ${({ theme }) => theme.headingColor};
+
+  &:first-child {
+    margin-bottom: 5px;
+  }
+
+  & span:first-child {
+    width: 100px;
+    text-align: right;
+    margin-right: 5px;
+  }
+
+  & span span {
+    margin: 0 5px;
+  }
+`;
 
 const timeActionTypes = {
   SET_TIME: "SET_TIME",
@@ -10,9 +53,9 @@ const timeActionTypes = {
   CHANGE_SECONDS: "CHANGE_SECONDS",
 };
 
-export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
-  const container = useRef(null);
+export default function Controlls({ video, videoRef, setGif, ffmpeg, ready }) {
   const [isConverting, setIsConverting] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const timeReducer = (state, action) => {
     switch (action.type) {
@@ -107,19 +150,19 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
         setTime();
       }, 100);
 
-      container.current.classList.add(styles.visible);
+      setVisible(true);
     } else {
-      container.current.classList.remove(styles.visible);
+      setVisible(false);
     }
   }, [video]);
 
   return (
-    <form className={styles.container} ref={container} onSubmit={convert}>
-      <div className={styles.inputs}>
-        <div className={styles.startTime}>
+    <ControllsContainer as="form" onSubmit={convert} visible={visible}>
+      <div>
+        <TimeInputContainer>
           <span>Start Time:</span>
           <span>
-            <input
+            <Input
               type="number"
               value={`${startTime.hours}`}
               min="0"
@@ -132,8 +175,8 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
               }}
               required
             />
-            <span className={styles.inputSeparator}>:</span>
-            <input
+            <span>:</span>
+            <Input
               type="number"
               value={startTime.minutes}
               min="0"
@@ -148,8 +191,8 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
               }
               required
             />
-            <span className={styles.inputSeparator}>:</span>
-            <input
+            <span>:</span>
+            <Input
               type="number"
               value={startTime.seconds}
               min="0"
@@ -165,11 +208,11 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
               required
             />
           </span>
-        </div>
-        <div className={styles.endTime}>
+        </TimeInputContainer>
+        <TimeInputContainer>
           <span>End Time:</span>
           <span>
-            <input
+            <Input
               type="number"
               value={endTime.hours}
               min={`${startTime.hours}`}
@@ -182,8 +225,8 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
               }
               required
             />
-            <span className={styles.inputSeparator}>:</span>
-            <input
+            <span>:</span>
+            <Input
               type="number"
               value={endTime.minutes}
               min={`${startTime.minutes}`}
@@ -198,8 +241,8 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
               }
               required
             />
-            <span className={styles.inputSeparator}>:</span>
-            <input
+            <span>:</span>
+            <Input
               type="number"
               value={endTime.seconds}
               min={`${startTime.seconds}`}
@@ -216,19 +259,14 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
               }
             />
           </span>
-        </div>
+        </TimeInputContainer>
       </div>
 
-      <button className={styles.convert} disabled={isConverting}>
-        <div className={styles.item}>
-          <div></div>
-        </div>
-        <p>{isConverting ? "Converting..." : "Convert"}</p>
-        <div className={styles.circle} style={{ animationDelay: "-3s" }}></div>
-        <div className={styles.circle} style={{ animationDelay: "-2s" }}></div>
-        <div className={styles.circle} style={{ animationDelay: "-1s" }}></div>
-        <div className={styles.circle} style={{ animationDelay: "0s" }}></div>
-      </button>
-    </form>
+      <AnimatedButton
+        loading={isConverting || !ready}
+        text="Convert"
+        loadingText={!ready ? "Loading ffmpeg" : "Converting..."}
+      />
+    </ControllsContainer>
   );
 }

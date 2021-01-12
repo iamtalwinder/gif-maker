@@ -1,7 +1,48 @@
 import { useEffect, useRef, forwardRef } from "react";
-import styles from "./input.module.css";
+import styled from "styled-components";
 import Icon from "@mdi/react";
 import { mdiFilePlusOutline } from "@mdi/js";
+import GradientButton from "./gradientButton";
+import Container from "./container";
+import Logo from "./logo";
+
+const InputContainer = styled(Container)`
+  display: block;
+  padding: 20px;
+`;
+
+const ChangeFileButton = styled(GradientButton)`
+  border-radius: 20px;
+  float: right;
+  margin-bottom: 5px;
+  padding: 6px;
+  font-size: 12px;
+`;
+
+const InputLogo = styled(Logo)`
+  margin-bottom: 15px;
+`;
+
+const Input = styled.input`
+  display: none;
+`;
+
+const Video = styled.video`
+  width: 100%;
+  height: 75%;
+`;
+
+const DropArea = styled.div`
+  width: 100%;
+  height: 75%;
+  background: inherit;
+  border: 2px dashed ${({ theme }) => theme.headingColor};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  color: ${({ theme }) => theme.textColor};
+`;
 
 export default forwardRef(({ video, setVideo }, ref) => {
   const input = useRef(null);
@@ -33,42 +74,32 @@ export default forwardRef(({ video, setVideo }, ref) => {
 
   return (
     <>
-      <input
-        className={styles.input}
+      <Input
         type="file"
         onChange={(e) => setVideo(e.target.files?.item(0))}
         ref={input}
       />
 
-      <div className={styles.container} ref={container}>
-        <div className={styles.logo}>
-          <img src="/logo.png" /> <span>Online GIF Maker</span>
-        </div>
+      <InputContainer ref={container} visible={true}>
+        <InputLogo text="Online GIF Maker" />
         {video && (
-          <button className={styles.changeFile} onClick={clickInput}>
-            Change file
-          </button>
+          <ChangeFileButton onClick={clickInput}>Change file</ChangeFileButton>
         )}
         {video ? (
-          <video
-            className={styles.video}
-            controls
-            src={URL.createObjectURL(video)}
-            ref={ref}
-          ></video>
+          <Video controls src={URL.createObjectURL(video)} ref={ref} />
         ) : (
-          <div className={styles.dropArea} onClick={clickInput} ref={dropArea}>
+          <DropArea onClick={clickInput} ref={dropArea}>
             <p>Easily convert videos to gifs</p>
-            <button className={styles.chooseFile}>
+            <GradientButton>
               <span>
                 <Icon path={mdiFilePlusOutline} size={1} verticle="true" />
               </span>
               <span>CHOOSE FILE</span>
-            </button>
+            </GradientButton>
             <p>or drop file here</p>
-          </div>
+          </DropArea>
         )}
-      </div>
+      </InputContainer>
     </>
   );
 });
