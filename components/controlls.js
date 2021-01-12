@@ -53,7 +53,7 @@ const timeActionTypes = {
   CHANGE_SECONDS: "CHANGE_SECONDS",
 };
 
-export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
+export default function Controlls({ video, videoRef, setGif, ffmpeg, ready }) {
   const [isConverting, setIsConverting] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -263,9 +263,9 @@ export default function Controlls({ video, videoRef, setGif, ffmpeg }) {
       </div>
 
       <AnimatedButton
-        loading={isConverting}
+        loading={isConverting || !ready}
         text="Convert"
-        loadingText="Converting..."
+        loadingText={!ready ? "Loading ffmpeg" : "Converting..."}
       />
     </ControllsContainer>
   );

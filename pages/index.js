@@ -85,6 +85,7 @@ const ffmpeg = createFFmpeg({ log: true });
 
 export default function Home({ toggleTheme }) {
   const [ready, setReady] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [video, setVideo] = useState(null);
   const [gif, setGif] = useState();
   const videoRef = useRef(null);
@@ -100,6 +101,9 @@ export default function Home({ toggleTheme }) {
 
   useEffect(() => {
     if (!ffmpeg.isLoaded()) {
+      setInterval(() => {
+        setLoading(false);
+      }, 3000);
       load();
     }
   }, []);
@@ -115,9 +119,9 @@ export default function Home({ toggleTheme }) {
         ></meta>
       </Head>
 
-      {!ready && <Loading />}
+      {loading && <Loading />}
 
-      {ready && (
+      {!loading && (
         <>
           <Nav>
             <Logo text="GIF maker" />
@@ -130,6 +134,7 @@ export default function Home({ toggleTheme }) {
               videoRef={videoRef}
               setGif={setGif}
               ffmpeg={ffmpeg}
+              ready={ready}
             />
             <Preview gif={gif} />
             <Instructions>
