@@ -72,12 +72,16 @@ To get a local copy up and running follow these simple example steps.
 1. Clone the repo
    ```sh
    git clone https://github.com/iamtalwinder/gif-maker.git
-   ```
 2. Install NPM packages
+   ```sh
+   cd gif-maker
+   ```
+   ```
+3. Install NPM packages
    ```sh
    npm install
    ```
-3. Run the development server
+4. Run the development server
    ```sh
    npm run dev
    ```
