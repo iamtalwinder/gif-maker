@@ -76,7 +76,6 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    cd gif-maker
    ```
-   ```
 3. Install NPM packages
    ```sh
    npm install
